@@ -8,7 +8,7 @@ var app = express();
 var server = http.createServer(app);
 
 var io = socketIO(server);
-
+const{generateMessage} = require('./utils/message');
 //App middleware for rendering static files
 app.use(express.static(path.join(__dirname,'../public')));
 
@@ -33,24 +33,13 @@ io.on('connection', (socket) => {
 
 	});
 
-	socket.emit('newMessage', {
-		from:'Admin',
-		text:'Welcome to the chat room'
-
-	});
-	socket.broadcast.emit('newMessage',{
-		from:'Admin',
-		text:'New user joined'
-	});
+	socket.emit('newMessage', generateMessage('Admin','Welcome to the chatroom!'));
+	socket.broadcast.emit('newMessage', generateMessage('Admin','New user joined!'));
 
 
 	socket.on('createMessage', (message) => {
 		console.log('createMessage', message);
-		io.emit('newMessage', {
-			from: message.from,
-			text: message.text,
-			createdAt: new Date().getTime()
-		});
+		io.emit('newMessage', generateMessage(message.from, message.text));
 
 
 	/*socket.broadcast.emit('newMessage',{
