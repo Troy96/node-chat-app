@@ -17,10 +17,29 @@ app.use(express.static(path.join(__dirname,'../public')));
 io.on('connection', (socket) => {
 	console.log('New user connected');
 
+	/*socket.emit('newEmail',{
+		from: 't@xmple.com',
+		text:'hey',
+		createrdAt: 123
+	});
+
+	socket.on('createEmail', (newEmail) => {
+		console.log('createEmail',newEmail);
+	});
+
 	socket.on('disconnect', ()=> {
 
 		console.log('disconnected from the server');
 
+	});*/
+	socket.emit('newMessage',{   //Emitting new Message event to the client
+		from:'Tuhin',
+		text:'Meet me up',
+		createdAt:1234
+	});
+
+	socket.on('createMessage', (message) => {
+		console.log('createMessage', message);
 	});
 
 });
