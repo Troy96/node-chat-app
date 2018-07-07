@@ -7,16 +7,13 @@ var socket = io();
 				to:'Tuhin@gmailo.com',
 				text:'Hey',
 			});	*/	
-			socket.emit('createMessage',{
-				from:'Roy',
-				text:'Alright!'
-			});
-		});
+
+		
 
 		socket.on('disconnect', function() {
 			console.log('Disconnected from server');
 		});
-
+});
 		/*socket.on('newEmail', function(email){
 			console.log('New email',email)
 		});*/

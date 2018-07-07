@@ -32,14 +32,16 @@ io.on('connection', (socket) => {
 		console.log('disconnected from the server');
 
 	});*/
-	socket.emit('newMessage',{   //Emitting new Message event to the client
-		from:'Tuhin',
-		text:'Meet me up',
-		createdAt:1234
-	});
+
 
 	socket.on('createMessage', (message) => {
 		console.log('createMessage', message);
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAt: new Date().getTime()
+		})
+
 	});
 
 });
