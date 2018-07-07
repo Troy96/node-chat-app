@@ -25,13 +25,23 @@ io.on('connection', (socket) => {
 
 	socket.on('createEmail', (newEmail) => {
 		console.log('createEmail',newEmail);
-	});
+	});*/
 
 	socket.on('disconnect', ()=> {
 
 		console.log('disconnected from the server');
 
-	});*/
+	});
+
+	socket.emit('newMessage', {
+		from:'Admin',
+		text:'Welcome to the chat room'
+
+	});
+	socket.broadcast.emit('newMessage',{
+		from:'Admin',
+		text:'New user joined'
+	});
 
 
 	socket.on('createMessage', (message) => {
@@ -40,10 +50,17 @@ io.on('connection', (socket) => {
 			from: message.from,
 			text: message.text,
 			createdAt: new Date().getTime()
-		})
+		});
 
+
+	/*socket.broadcast.emit('newMessage',{
+		from: message.from,
+		text: message.text,
+		createdAt: new Date().getTime()
 	});
+	*/
 
+});
 });
 
 //Make server listen at port 3000 for requests
