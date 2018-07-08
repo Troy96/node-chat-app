@@ -8,7 +8,7 @@ var app = express();
 var server = http.createServer(app);
 
 var io = socketIO(server);
-const{generateMessage} = require('./utils/message');
+const{generateMessage, generateLocationMessage} = require('./utils/message');
 //App middleware for rendering static files
 app.use(express.static(path.join(__dirname,'../public')));
 
@@ -42,6 +42,10 @@ io.on('connection', (socket) => {
 		io.emit('newMessage', generateMessage(message.from, message.text));
 		callback('Inside callback!');
 
+
+		socket.on('createLocationMessage', (coords)=>{
+			io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+		});
 	/*socket.broadcast.emit('newMessage',{
 		from: message.from,
 		text: message.text,
